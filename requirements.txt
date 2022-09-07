@@ -1,0 +1,2 @@
+iota-client~=0.2.0a8
+flask~=2.1.3
