@@ -16,11 +16,13 @@ def write_to_tangle():  # put application's code here
     longitude = request.args.get('longitude')
     latitude = request.args.get('latitude')
     altitude = request.args.get('altitude')
+    timestamp = request.args.get('timestamp')
 
     client = IotaClient()
     message = client.send_message(
         index=uuid,
         value=json.dumps({
+            'sensor_id': str(uuid),
             'lux': str(lux),
             'proximity': str(proximity),
             'pressure': str(pressure),
@@ -29,6 +31,7 @@ def write_to_tangle():  # put application's code here
             'longitude': str(longitude),
             'latitude': str(latitude),
             'altitude': str(altitude),
+            'timestamp': str(timestamp)
         })
     )
     return jsonify(message)
