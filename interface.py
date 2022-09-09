@@ -1,3 +1,5 @@
+import json
+
 import iota_client
 
 
@@ -22,7 +24,7 @@ class IotaClient:
             parsed_index = str(bytes.fromhex((entry['index'])).decode('utf-8'))
             parsed_text = ''.join(chr(i) for i in data)
             parsed_payload[parsed_index] = parsed_text
-        return parsed_payload
+        return json.loads(parsed_payload.popitem()[1])
 
     def send_message(self, index: str, value: str) -> str:
         """Sends a message to the Tangle. Returns the sent messages id."""

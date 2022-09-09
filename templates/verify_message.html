@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-between">
+    <h1>Verifying Message</h1>
+    <form method="get" action="{{ url_for('get_message') }}">
+        <button class="btn btn-secondary m-3">
+            Restart
+        </button>
+    </form>
+</div>
+
+<div class="alert alert-danger" role="alert" hidden id="not-valid-banner">
+    Message is NOT valid!
+</div>
+<div class="alert alert-success" role="alert" hidden id="valid-banner">
+    Message is valid!
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h4>Entered Values</h4>
+        {%for key, value in message.__dict__.items()%}
+        <h6>{{key}}</h6>
+        <input name="{{ key}}" id="{{ key }}-entered" value="{{ value }}" class="entered form-control mb-2">
+        {%endfor%}
+    </div>
+    <div class="col-md-4">
+        <h4>True Values</h4>
+        {% for key, value in message.__dict__.items()%}
+        <h6>{{ key}}</h6>
+        <input name="{{ key}}" id="{{ key }}-true" value="{{ value }}" class="true form-control mb-2" disabled>
+        {%endfor%}
+    </div>
+</div>
+<div class="row justify-content-center">
+    <button class="btn btn-secondary m-3" onclick="compareMessages()">Compare</button>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function compareMessages() {
+        const enteredValues = document.getElementsByClassName("entered");
+        const trueValues = document.getElementsByClassName("true");
+        let isValid = true;
+        for (let i = 0; i <= 8; i++) {
+            if (enteredValues[i].value !== trueValues[i].value) {
+                isValid = false
+            }
+            ;
+        }
+        document.getElementById("valid-banner").hidden = !isValid;
+        document.getElementById("not-valid-banner").hidden = isValid;
+    }
+</script>
+{% endblock %}

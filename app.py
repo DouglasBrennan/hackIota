@@ -1,8 +1,25 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from interface import IotaClient
+from message import Message
 import json
 
+
 app = Flask(__name__)
+
+
+@app.route('/get_message', methods=['GET', 'POST'])
+def get_message():
+    if request.method == 'POST':
+        message_id = request.form['message-id-input']
+        return verify_message(message_id)
+    return render_template('get_message.html')
+
+
+@app.route('/verify_message', methods=['GET', 'POST'])
+def verify_message(message_id):
+    if request.method == 'POST':
+        message: Message = Message.from_id(request.form)
+    return render_template('verify_message.html', message=message)
 
 
 @app.route('/conditions')
@@ -37,5 +54,6 @@ def write_to_tangle():  # put application's code here
     return jsonify(message)
 
 
+
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8080)

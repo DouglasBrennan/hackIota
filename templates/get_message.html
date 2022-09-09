@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h1>Message Integrity Checker</h1>
+    <form method="post" action="{{ url_for('get_message') }}" class="col-md-4">
+        <h6><label for="message-id-input">Message ID</label></h6>
+        <div class="input-group">
+            <input name="message-id-input" id='message-id-input' type="text" class="form-control">
+            <div class="input-group-append">
+                <button class="btn btn-secondary">Fetch</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

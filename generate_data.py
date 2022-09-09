@@ -33,8 +33,8 @@ class Parameter:
 class Sensor:
     """Represents a sensor"""
 
-    def __init__(self, length: int, parameters: dict[str, Parameter]):
-        self.id = str(uuid.uuid4())
+    def __init__(self, length: int, parameters: dict[str, Parameter], id: str = None):
+        self.id = str(uuid.uuid4()) if id is None else id
         self.longitude = random.uniform(8.49768, 8.54104)
         self.latitude = random.uniform(47.36362, 47.37809)
         self.observation_length = length
@@ -81,10 +81,11 @@ DEFAULT_PARAMETERS = {
 }
 
 
-def generate_data(sensor_count:int):
+def generate_data(sensor_count: int):
     """generates data for a given amount of sensors"""
     client = IotaClient()
-    sensors = fabricate_sensors(count=sensor_count)
+    sensors = [Sensor(length=10, parameters=DEFAULT_PARAMETERS, id='5d4d6c49-9969-47dd-8f95-f6eb1a412939')]
+    # sensors = fabricate_sensors(count=sensor_count)
     for sensor in sensors:
         sensor.set_representative_values()
         sensor.write_to_tangle(client)
